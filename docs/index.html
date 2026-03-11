@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Grievance Redressal System | Government of India</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* Tricolor Top Border */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                #FF9933 0%, #FF9933 33%, 
+                #FFFFFF 33%, #FFFFFF 66%, 
+                #138808 66%, #138808 100%);
+            z-index: 1000;
+        }
+
+        /* Header */
+        .gov-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 4px;
+        }
+
+        .gov-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .gov-logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .gov-emblem {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .gov-title h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .gov-title p {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF9933 0%, #FF7700 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 153, 51, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            padding: 25px 20px;
+            border-bottom: 3px solid #3B82F6;
+        }
+
+        .stats-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1E3A8A;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #64748B;
+            font-weight: 500;
+        }
+
+        .stat-percentage {
+            font-size: 12px;
+            color: #10B981;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.05) 0%, rgba(19, 136, 8, 0.05) 100%);
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-content h2 {
+            font-size: 36px;
+            color: #1E3A8A;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: #475569;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero {
+            padding: 15px 35px;
+            font-size: 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-file-complaint {
+            background: linear-gradient(135deg, #FF9933 0%, #FF7700 50%, #138808 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 153, 51, 0.3);
+        }
+
+        .btn-file-complaint:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 153, 51, 0.4);
+        }
+
+        .btn-track {
+            background: white;
+            color: #1E3A8A;
+            border: 2px solid #1E3A8A;
+        }
+
+        .btn-track:hover {
+            background: #1E3A8A;
+            color: white;
+        }
+
+        /* Quick Links Section */
+        .quick-links {
+            max-width: 1200px;
+            margin: -30px auto 40px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .quick-link-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.3s;
+            border-top: 4px solid transparent;
+        }
+
+        .quick-link-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            border-top-color: #FF9933;
+        }
+
+        .quick-link-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .quick-link-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1E3A8A;
+            margin-bottom: 10px;
+        }
+
+        .quick-link-desc {
+            font-size: 14px;
+            color: #64748B;
+            line-height: 1.5;
+        }
+
+        /* Departments Section */
+        .departments-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #1E3A8A;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .dept-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+
+        .dept-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        .dept-icon {
+            font-size: 40px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .dept-info {
+            flex: 1;
+        }
+
+        .dept-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E3A8A;
+            margin-bottom: 5px;
+        }
+
+        .dept-stats {
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        .dept-count {
+            font-weight: 600;
+            color: #FF9933;
+        }
+
+        /* Footer */
+        .gov-footer {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-emblem {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .footer-motto {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10B981;
+            color: #065F46;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #EF4444;
+            color: #991B1B;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h2 { font-size: 28px; }
+            .hero-content p { font-size: 16px; }
+            .stats-content { grid-template-columns: 1fr 1fr; }
+            .quick-links-grid { grid-template-columns: 1fr; }
+            .departments-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="gov-header">
+        <div class="gov-header-content">
+            <div class="gov-logo-section">
+                <div class="gov-emblem">☸️</div>
+                <div class="gov-title">
+                    <h1>🇮🇳 Smart Grievance Redressal System</h1>
+                    <p>Government of India | भारत सरकार</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="track.html" class="btn btn-secondary">Track Status</a>
+                <a href="login.html" class="btn btn-primary">Login</a>
+                <a href="register.html" class="btn btn-primary">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Live Statistics Bar -->
+    <section class="stats-bar">
+        <div class="stats-content">
+            <div class="stat-item">
+                <div class="stat-icon">📊</div>
+                <div class="stat-number" id="totalComplaints">1,247</div>
+                <div class="stat-label">Total Complaints</div>
+                <div class="stat-percentage">+12% this month</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">✅</div>
+                <div class="stat-number" id="resolvedComplaints">892</div>
+                <div class="stat-label">Resolved</div>
+                <div class="stat-percentage">71.5% Success Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-number" id="pendingComplaints">355</div>
+                <div class="stat-label">Pending</div>
+                <div class="stat-percentage">28.5% In Progress</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-number">48h</div>
+                <div class="stat-label">Avg Resolution Time</div>
+                <div class="stat-percentage">-15% faster</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h2>Empowering Citizens | Ensuring Accountability</h2>
+            <p>File your grievance, track in real-time, and get resolution. Our AI-powered system ensures your complaint reaches the right department instantly.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-hero btn-file-complaint" onclick="openComplaintModal()">
+                    📝 File a Complaint
+                </button>
+                <a href="track.html" class="btn btn-hero btn-track">
+                    🔍 Track Your Complaint
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section class="quick-links">
+        <div class="quick-links-grid">
+            <div class="quick-link-card">
+                <div class="quick-link-icon">🚀</div>
+                <div class="quick-link-title">Instant Filing</div>
+                <div class="quick-link-desc">Submit your complaint in less than 2 minutes with our simple form</div>
+            </div>
+            <div class="quick-link-card">
+                <div class="quick-link-icon">🤖</div>
+                <div class="quick-link-title">AI Classification</div>
+                <div class="quick-link-desc">Automatic department assignment using advanced AI algorithms</div>
+            </div>
+            <div class="quick-link-card">
+                <div class="quick-link-icon">🌍</div>
+                <div class="quick-link-title">12 Languages</div>
+                <div class="quick-link-desc">File complaints in Hindi, English, Tamil, Telugu, and more</div>
+            </div>
+            <div class="quick-link-card">
+                <div class="quick-link-icon">📱</div>
+                <div class="quick-link-title">Real-Time Updates</div>
+                <div class="quick-link-desc">Get instant SMS and email notifications on status changes</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Departments -->
+    <section class="departments-section">
+        <h2 class="section-title">Departments We Serve</h2>
+        <div class="departments-grid" id="departmentsGrid">
+            <div class="dept-card">
+                <div class="dept-icon">🔌</div>
+                <div class="dept-info">
+                    <div class="dept-name">Electricity</div>
+                    <div class="dept-stats"><span class="dept-count">320</span> complaints · 85% resolved</div>
+                </div>
+            </div>
+            <div class="dept-card">
+                <div class="dept-icon">💧</div>
+                <div class="dept-info">
+                    <div class="dept-name">Water Supply</div>
+                    <div class="dept-stats"><span class="dept-count">245</span> complaints · 78% resolved</div>
+                </div>
+            </div>
+            <div class="dept-card">
+                <div class="dept-icon">🛣️</div>
+                <div class="dept-info">
+                    <div class="dept-name">Roads & Infrastructure</div>
+                    <div class="dept-stats"><span class="dept-count">198</span> complaints · 92% resolved</div>
+                </div>
+            </div>
+            <div class="dept-card">
+                <div class="dept-icon">🧹</div>
+                <div class="dept-info">
+                    <div class="dept-name">Sanitation</div>
+                    <div class="dept-stats"><span class="dept-count">165</span> complaints · 88% resolved</div>
+                </div>
+            </div>
+            <div class="dept-card">
+                <div class="dept-icon">🚌</div>
+                <div class="dept-info">
+                    <div class="dept-name">Public Transport</div>
+                    <div class="dept-stats"><span class="dept-count">142</span> complaints · 75% resolved</div>
+                </div>
+            </div>
+            <div class="dept-card">
+                <div class="dept-icon">🏥</div>
+                <div class="dept-info">
+                    <div class="dept-name">Healthcare</div>
+                    <div class="dept-stats"><span class="dept-count">177</span> complaints · 82% resolved</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Complaint Modal -->
+    <div class="modal" id="complaintModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">📝 File a New Complaint</div>
+                <button class="close-modal" onclick="closeComplaintModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="alertContainer"></div>
+                <form id="complaintForm">
+                    <div class="form-group">
+                        <label class="form-label">Complaint Title *</label>
+                        <input type="text" id="title" class="form-input" placeholder="Brief description" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Department *</label>
+                        <select id="department" class="form-select" required>
+                            <option value="">Select Department</option>
+                            <option value="Electricity">🔌 Electricity</option>
+                            <option value="Water Supply">💧 Water Supply</option>
+                            <option value="Roads">🛣️ Roads & Infrastructure</option>
+                            <option value="Sanitation">🧹 Sanitation</option>
+                            <option value="Public Transport">🚌 Public Transport</option>
+                            <option value="Healthcare">🏥 Healthcare</option>
+                            <option value="Education">📚 Education</option>
+                            <option value="Police">👮 Police & Law</option>
+                            <option value="Other">📋 Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Detailed Description *</label>
+                        <textarea id="description" class="form-textarea" placeholder="Describe your issue in detail..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" id="location" class="form-input" placeholder="Area, City, State">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Contact Phone</label>
+                        <input type="tel" id="phone" class="form-input" placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px;">
+                        Submit Complaint
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="gov-footer">
+        <div class="footer-content">
+            <div class="footer-emblem">☸️</div>
+            <div class="footer-motto">सत्यमेव जयते</div>
+            <div class="footer-motto" style="font-size: 14px; margin-top: 5px;">Satyameva Jayate (Truth Alone Triumphs)</div>
+            <div class="footer-text">Government of India | भारत सरकार</div>
+            <div class="footer-text">Digital India Initiative | Ministry of Electronics & IT</div>
+            <div class="footer-text" style="margin-top: 15px; font-size: 12px;">
+                © 2026 Smart Grievance Redressal System. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="demo-system.js"></script>
+    <script>
+        // Update statistics from demo system
+        function updateStatistics() {
+            const stats = grievanceSystem.getStatistics();
+            document.getElementById('totalComplaints').textContent = stats.total.toLocaleString();
+            document.getElementById('resolvedComplaints').textContent = stats.resolved.toLocaleString();
+            document.getElementById('pendingComplaints').textContent = stats.pending.toLocaleString();
+        }
+
+        // Open complaint modal
+        function openComplaintModal() {
+            const user = grievanceSystem.getUser();
+            if (!user) {
+                if (confirm('You need to login to file a complaint. Go to login page?')) {
+                    window.location.href = 'login.html';
+                }
+                return;
+            }
+            document.getElementById('complaintModal').classList.add('show');
+        }
+
+        // Close complaint modal
+        function closeComplaintModal() {
+            document.getElementById('complaintModal').classList.remove('show');
+            document.getElementById('complaintForm').reset();
+            document.getElementById('alertContainer').innerHTML = '';
+        }
+
+        // Show alert in modal
+        function showModalAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        // Handle complaint submission
+        document.getElementById('complaintForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('title').value.trim();
+            const department = document.getElementById('department').value;
+            const description = document.getElementById('description').value.trim();
+            const location = document.getElementById('location').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            try {
+                const grievance = grievanceSystem.submitGrievance({
+                    title: title,
+                    description: description,
+                    department: department,
+                    location: location || 'Not specified',
+                    phone: phone || 'Not provided'
+                });
+
+                showModalAlert(`✅ Complaint submitted successfully!<br><strong>Your Grievance ID: ${grievance.id}</strong><br>Please save this ID for tracking.`, 'success');
+
+                // Update statistics
+                updateStatistics();
+
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    closeComplaintModal();
+                }, 3000);
+
+            } catch (error) {
+                showModalAlert('❌ ' + error.message, 'error');
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStatistics();
+
+            // Close modal on outside click
+            document.getElementById('complaintModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeComplaintModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

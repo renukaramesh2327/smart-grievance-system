@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Officer Portal - Smart Grievance System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .officer-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .officer-id {
+            font-size: 14px;
+            font-weight: 700;
+            background: white;
+            color: #1e3a8a;
+            padding: 5px 12px;
+            border-radius: 6px;
+        }
+
+        .officer-info {
+            text-align: left;
+        }
+
+        .officer-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .officer-dept {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 30px;
+        }
+
+        .work-tracker {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tracker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .tracker-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+
+        .time-display {
+            font-size: 24px;
+            font-weight: 700;
+            color: #10B981;
+        }
+
+        .work-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .status-item {
+            background: #F9FAFB;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .status-label {
+            font-size: 12px;
+            color: #6B7280;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1F2937;
+        }
+
+        .btn-work {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .btn-start {
+            background: #10B981;
+            color: white;
+        }
+
+        .btn-end {
+            background: #EF4444;
+            color: white;
+        }
+
+        .btn-start:hover, .btn-end:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6B7280;
+            font-weight: 600;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 22px;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .complaint-card {
+            background: #F9FAFB;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3B82F6;
+        }
+
+        .complaint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .complaint-id {
+            font-weight: 700;
+            color: #1e3a8a;
+            font-size: 16px;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-received { background: #DBEAFE; color: #1E40AF; }
+        .badge-progress { background: #FED7AA; color: #9A3412; }
+        .badge-resolved { background: #D1FAE5; color: #065F46; }
+        .badge-high { background: #FEE2E2; color: #991B1B; }
+        .badge-medium { background: #FED7AA; color: #9A3412; }
+        .badge-low { background: #DBEAFE; color: #1E40AF; }
+
+        .complaint-title {
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .complaint-meta {
+            font-size: 13px;
+            color: #6B7280;
+            margin-bottom: 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF9933 0%, #138808 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #3B82F6;
+            color: white;
+        }
+
+        .btn-success {
+            background: #10B981;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #E5E7EB;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+
+        .close-btn {
+            background: #EF4444;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-label.required::after {
+            content: ' *';
+            color: #EF4444;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            border: 2px dashed #3B82F6;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            background: #EFF6FF;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .image-preview {
+            margin-top: 15px;
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .warning-box {
+            background: #FEF3C7;
+            border-left: 4px solid #F59E0B;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .warning-box strong {
+            color: #92400E;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6B7280;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="officer-badge">
+                <div class="officer-id" id="officerId">LOADING...</div>
+                <div class="officer-info">
+                    <div class="officer-name" id="officerName">Loading...</div>
+                    <div class="officer-dept" id="officerDept">Loading...</div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="window.location.href='index.html'" class="btn btn-secondary">Home</button>
+                <button onclick="window.location.href='officer-profile.html'" class="btn btn-secondary">My Profile</button>
+                <button onclick="logout()" class="btn btn-primary">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Work Tracker -->
+        <div class="work-tracker">
+            <div class="tracker-header">
+                <div>
+                    <div class="tracker-title">📊 Today's Work Tracker</div>
+                    <div style="font-size: 14px; color: #6B7280; margin-top: 5px;" id="currentDate"></div>
+                </div>
+                <div>
+                    <div class="time-display" id="workTimer">00:00:00</div>
+                    <button id="workBtn" class="btn-work btn-start" onclick="toggleWork()">▶️ Start Work</button>
+                </div>
+            </div>
+            
+            <div class="work-status">
+                <div class="status-item">
+                    <div class="status-label">Work Started</div>
+                    <div class="status-value" id="startTime">Not started</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Last Update</div>
+                    <div class="status-value" id="lastUpdate">--</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Updates Sent Today</div>
+                    <div class="status-value" id="updatesToday">0</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Cases Resolved Today</div>
+                    <div class="status-value" id="resolvedToday">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <div class="stat-number" id="totalAssigned">0</div>
+                <div class="stat-label">Assigned to Me</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-number" id="pendingCount">0</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔄</div>
+                <div class="stat-number" id="progressCount">0</div>
+                <div class="stat-label">In Progress</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-number" id="resolvedCount">0</div>
+                <div class="stat-label">Resolved</div>
+            </div>
+        </div>
+
+        <!-- Assigned Complaints -->
+        <div class="card">
+            <div class="card-title">📋 My Assigned Complaints</div>
+            <div id="complaintsContainer">
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <p>No complaints assigned</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Status Modal -->
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">🔄 Update Complaint Status</div>
+                <button class="close-btn" onclick="closeModal('updateModal')">&times;</button>
+            </div>
+            
+            <form id="updateForm">
+                <input type="hidden" id="updateComplaintId">
+                
+                <div class="form-group">
+                    <label class="form-label required">New Status</label>
+                    <select class="form-select" id="newStatus" required>
+                        <option value="">Select Status</option>
+                        <option value="Assigned to Department">Assigned to Department</option>
+                        <option value="Under Progress">Under Progress</option>
+                        <option value="Investigation">Under Investigation</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label required">Update Comment</label>
+                    <textarea class="form-textarea" id="updateComment" placeholder="Enter details about the progress..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Assign to Field Worker</label>
+                    <select class="form-select" id="assignWorker">
+                        <option value="">Select Worker (Optional)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Update to Hierarchy</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Resolve Modal -->
+    <div id="resolveModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">✅ Mark as Resolved</div>
+                <button class="close-btn" onclick="closeModal('resolveModal')">&times;</button>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ MANDATORY REQUIREMENTS:</strong><br>
+                1. Upload work completion photo<br>
+                2. Provide detailed remarks<br>
+                Both are required to close this case.
+            </div>
+
+            <form id="resolveForm">
+                <input type="hidden" id="resolveComplaintId">
+                
+                <div class="form-group">
+                    <label class="form-label required">Work Completion Photo</label>
+                    <div class="file-upload" onclick="document.getElementById('completionPhoto').click()">
+                        <div class="upload-icon">📸</div>
+                        <div><strong>Click to upload photo</strong></div>
+                        <div style="font-size: 13px; color: #6B7280; margin-top: 5px;">JPG, PNG, WEBP (Max 5MB)</div>
+                        <input type="file" id="completionPhoto" accept="image/*" required onchange="previewImage(this)">
+                    </div>
+                    <div id="imagePreview" class="image-preview"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label required">Resolution Remarks</label>
+                    <textarea class="form-textarea" id="resolutionRemarks" placeholder="Describe the work done, materials used, time taken, etc..." required minlength="50"></textarea>
+                    <div style="font-size: 12px; color: #6B7280; margin-top: 5px;">Minimum 50 characters required</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Send Copy to</label>
+                    <div style="font-size: 14px; color: #1F2937; margin-top: 5px;">
+                        ✅ User (Complaint Owner)<br>
+                        ✅ Department Head<br>
+                        ✅ Admin Dashboard
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success" style="width: 100%;">✅ Mark as Resolved & Send Updates</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="demo-system.js"></script>
+    <script>
+        if (!grievanceSystem.requireAuth()) {
+            window.location.href = 'login.html';
+        }
+
+        const user = grievanceSystem.getUser();
+        if (!user || !['OFFICER', 'DEPARTMENT_HEAD', 'FIELD_WORKER'].includes(user.role)) {
+            alert('Access denied! Officer portal only.');
+            window.location.href = 'index.html';
+        }
+
+        let workStartTime = null;
+        let workInterval = null;
+
+        function initOfficerInfo() {
+            document.getElementById('officerId').textContent = `ID: ${user.id}`;
+            document.getElementById('officerName').textContent = user.name;
+            document.getElementById('officerDept').textContent = `${user.role} - ${user.department || 'General'}`;
+            
+            const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('currentDate').textContent = today;
+
+            // Load today's work data
+            const workData = JSON.parse(localStorage.getItem(`work_${user.id}_${new Date().toDateString()}`) || '{}');
+            if (workData.started) {
+                workStartTime = new Date(workData.startTime);
+                document.getElementById('startTime').textContent = new Date(workData.startTime).toLocaleTimeString();
+                document.getElementById('workBtn').textContent = '⏹️ End Work';
+                document.getElementById('workBtn').classList.remove('btn-start');
+                document.getElementById('workBtn').classList.add('btn-end');
+                startWorkTimer();
+            }
+
+            document.getElementById('updatesToday').textContent = workData.updates || 0;
+            document.getElementById('resolvedToday').textContent = workData.resolved || 0;
+        }
+
+        function toggleWork() {
+            const workData = JSON.parse(localStorage.getItem(`work_${user.id}_${new Date().toDateString()}`) || '{}');
+            
+            if (!workData.started) {
+                // Start work
+                workData.started = true;
+                workData.startTime = new Date().toISOString();
+                workData.updates = 0;
+                workData.resolved = 0;
+                localStorage.setItem(`work_${user.id}_${new Date().toDateString()}`, JSON.stringify(workData));
+                
+                workStartTime = new Date();
+                document.getElementById('startTime').textContent = new Date().toLocaleTimeString();
+                document.getElementById('workBtn').textContent = '⏹️ End Work';
+                document.getElementById('workBtn').classList.remove('btn-start');
+                document.getElementById('workBtn').classList.add('btn-end');
+                startWorkTimer();
+                
+                alert('✅ Work started! Your daily tracking has begun.');
+            } else {
+                // End work
+                if (confirm('Are you sure you want to end your work for today?')) {
+                    workData.started = false;
+                    workData.endTime = new Date().toISOString();
+                    localStorage.setItem(`work_${user.id}_${new Date().toDateString()}`, JSON.stringify(workData));
+                    
+                    stopWorkTimer();
+                    document.getElementById('workBtn').textContent = '▶️ Start Work';
+                    document.getElementById('workBtn').classList.remove('btn-end');
+                    document.getElementById('workBtn').classList.add('btn-start');
+                    
+                    alert('✅ Work ended! Good job today.');
+                }
+            }
+        }
+
+        function startWorkTimer() {
+            workInterval = setInterval(() => {
+                if (workStartTime) {
+                    const elapsed = Date.now() - workStartTime.getTime();
+                    const hours = Math.floor(elapsed / 3600000);
+                    const minutes = Math.floor((elapsed % 3600000) / 60000);
+                    const seconds = Math.floor((elapsed % 60000) / 1000);
+                    document.getElementById('workTimer').textContent = 
+                        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                }
+            }, 1000);
+        }
+
+        function stopWorkTimer() {
+            if (workInterval) {
+                clearInterval(workInterval);
+                workInterval = null;
+            }
+            workStartTime = null;
+            document.getElementById('workTimer').textContent = '00:00:00';
+        }
+
+        function loadComplaints() {
+            const complaints = grievanceSystem.getUserGrievances();
+            const assigned = complaints.filter(c => c.currentHandler === user.id || c.assignedTo === user.id);
+            
+            // Update stats
+            document.getElementById('totalAssigned').textContent = assigned.length;
+            document.getElementById('pendingCount').textContent = assigned.filter(c => c.status === 'Received' || c.status === 'Assigned to Department').length;
+            document.getElementById('progressCount').textContent = assigned.filter(c => c.status === 'Under Progress' || c.status === 'Investigation').length;
+            document.getElementById('resolvedCount').textContent = assigned.filter(c => c.status === 'Resolved' || c.status === 'Closed').length;
+
+            const container = document.getElementById('complaintsContainer');
+            
+            if (assigned.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <p>No complaints assigned to you yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = assigned.map(c => {
+                const statusClass = c.status === 'Resolved' || c.status === 'Closed' ? 'badge-resolved' :
+                                   c.status.includes('Progress') ? 'badge-progress' : 'badge-received';
+                const priorityClass = c.priority === 'High' ? 'badge-high' :
+                                     c.priority === 'Medium' ? 'badge-medium' : 'badge-low';
+                
+                return `
+                    <div class="complaint-card">
+                        <div class="complaint-header">
+                            <div class="complaint-id">${c.id}</div>
+                            <div>
+                                <span class="badge ${statusClass}">${c.status}</span>
+                                <span class="badge ${priorityClass}">${c.priority}</span>
+                            </div>
+                        </div>
+                        <div class="complaint-title">${c.title}</div>
+                        <div class="complaint-meta">
+                            📍 ${c.location} • 🏢 ${c.department} • 📅 ${new Date(c.createdAt).toLocaleDateString()}
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary" onclick="window.location.href='track.html?id=${c.id}'">👁️ View Details</button>
+                            <button class="btn btn-primary" onclick="openUpdateModal('${c.id}')">🔄 Update Status</button>
+                            ${c.status !== 'Resolved' && c.status !== 'Closed' ? 
+                                `<button class="btn btn-success" onclick="openResolveModal('${c.id}')">✅ Mark Resolved</button>` : 
+                                ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openUpdateModal(complaintId) {
+            document.getElementById('updateComplaintId').value = complaintId;
+            
+            // Load field workers for assignment
+            const workers = grievanceSystem.DEMO_USERS.filter(u => 
+                u.role === 'FIELD_WORKER' && u.department === user.department
+            );
+            const select = document.getElementById('assignWorker');
+            select.innerHTML = '<option value="">Select Worker (Optional)</option>' +
+                workers.map(w => `<option value="${w.id}">${w.name}</option>`).join('');
+            
+            document.getElementById('updateModal').classList.add('show');
+        }
+
+        function openResolveModal(complaintId) {
+            document.getElementById('resolveComplaintId').value = complaintId;
+            document.getElementById('imagePreview').innerHTML = '';
+            document.getElementById('resolveForm').reset();
+            document.getElementById('resolveModal').classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function previewImage(input) {
+            const preview = document.getElementById('imagePreview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        document.getElementById('updateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const complaintId = document.getElementById('updateComplaintId').value;
+            const status = document.getElementById('newStatus').value;
+            const comment = document.getElementById('updateComment').value;
+            const workerId = document.getElementById('assignWorker').value;
+            
+            try {
+                grievanceSystem.updateGrievanceStatus(complaintId, status, `${comment} [Updated by: ${user.name}]`);
+                
+                if (workerId) {
+                    grievanceSystem.assignToFieldWorker(complaintId, parseInt(workerId));
+                }
+                
+                // Update today's stats
+                const workData = JSON.parse(localStorage.getItem(`work_${user.id}_${new Date().toDateString()}`) || '{}');
+                workData.updates = (workData.updates || 0) + 1;
+                workData.lastUpdate = new Date().toISOString();
+                localStorage.setItem(`work_${user.id}_${new Date().toDateString()}`, JSON.stringify(workData));
+                
+                document.getElementById('updatesToday').textContent = workData.updates;
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+                
+                alert('✅ Update sent successfully! User and department head notified.');
+                closeModal('updateModal');
+                loadComplaints();
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            }
+        });
+
+        document.getElementById('resolveForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const complaintId = document.getElementById('resolveComplaintId').value;
+            const remarks = document.getElementById('resolutionRemarks').value;
+            const photoFile = document.getElementById('completionPhoto').files[0];
+            
+            if (!photoFile) {
+                alert('❌ Please upload work completion photo!');
+                return;
+            }
+            
+            if (remarks.length < 50) {
+                alert('❌ Remarks must be at least 50 characters!');
+                return;
+            }
+            
+            // Simulate image upload
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageData = e.target.result;
+                
+                try {
+                    grievanceSystem.updateGrievanceStatus(
+                        complaintId, 
+                        'Resolved', 
+                        `WORK COMPLETED\n\nRemarks: ${remarks}\n\nCompleted by: ${user.name}\nPhoto: Attached\n\n[System: Work completion photo verified]`,
+                        imageData
+                    );
+                    
+                    // Update today's stats
+                    const workData = JSON.parse(localStorage.getItem(`work_${user.id}_${new Date().toDateString()}`) || '{}');
+                    workData.resolved = (workData.resolved || 0) + 1;
+                    workData.lastUpdate = new Date().toISOString();
+                    localStorage.setItem(`work_${user.id}_${new Date().toDateString()}`, JSON.stringify(workData));
+                    
+                    document.getElementById('resolvedToday').textContent = workData.resolved;
+                    document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+                    
+                    alert('✅ Case marked as RESOLVED!\n\nNotifications sent to:\n• User\n• Department Head\n• Admin\n\nWork completion photo attached.');
+                    closeModal('resolveModal');
+                    loadComplaints();
+                } catch (error) {
+                    alert('❌ Error: ' + error.message);
+                }
+            };
+            reader.readAsDataURL(photoFile);
+        });
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                grievanceSystem.logout();
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initOfficerInfo();
+            loadComplaints();
+        });
+    </script>
+</body>
+</html>

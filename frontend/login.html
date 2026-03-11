@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smart Grievance System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="government-portal-theme.css">
+    <link rel="stylesheet" href="improved-contrast.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, 
+                rgba(255, 153, 51, 0.08) 0%,
+                rgba(255, 255, 255, 1) 50%,
+                rgba(19, 136, 8, 0.08) 100%);
+            position: relative;
+        }
+
+        /* Tricolor Top Border */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, 
+                #FF9933 0%, #FF9933 33%, 
+                #FFFFFF 33%, #FFFFFF 66%, 
+                #138808 66%, #138808 100%);
+            z-index: 1000;
+        }
+
+        /* Rangoli Pattern Background */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 153, 51, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(19, 136, 8, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(255, 153, 51, 0.1);
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #003DA5 0%, #001F52 100%);
+            padding: 30px 30px 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .login-header::before {
+            content: '🇮🇳';
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .login-header h1 {
+            color: white;
+            font-size: 1.6rem;
+            margin: 0 0 5px 0;
+            font-weight: 700;
+        }
+
+        .login-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .login-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1F2937;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #E5E7EB;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FF9933;
+            box-shadow: 0 0 0 4px rgba(255, 153, 51, 0.1);
+            background: rgba(255, 153, 51, 0.02);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #FF9933 0%, #138808 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-login:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 153, 51, 0.3);
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #E5E7EB;
+            color: #6B7280;
+            font-size: 0.9rem;
+        }
+
+        .auth-link a {
+            color: #FF9933;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .auth-link a:hover {
+            color: #138808;
+            text-decoration: underline;
+        }
+
+        .demo-credentials {
+            background: linear-gradient(135deg, 
+                rgba(59, 130, 246, 0.05) 0%, 
+                rgba(255, 255, 255, 1) 100%);
+            border-left: 4px solid #3B82F6;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 0.85rem;
+        }
+
+        .demo-credentials strong {
+            color: #1F2937;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .demo-item {
+            padding: 6px 0;
+            color: #4B5563;
+            line-height: 1.6;
+        }
+
+        .demo-item strong {
+            color: #1F2937;
+            display: inline;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+        .demo-item code {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #1E40AF;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, white 100%);
+            border-left: 4px solid #10B981;
+            color: #065F46;
+        }
+
+        .alert-error {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, white 100%);
+            border-left: 4px solid #EF4444;
+            color: #991B1B;
+        }
+
+        /* Loading Spinner */
+        .btn-login.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .btn-login.loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: -8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 15px;
+            }
+
+            .login-header {
+                padding: 25px 20px 20px;
+            }
+
+            .login-header h1 {
+                font-size: 1.4rem;
+            }
+
+            .login-body {
+                padding: 25px 20px;
+            }
+
+            .demo-credentials {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="department-backgrounds.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>Smart Grievance System</h1>
+                <p>Secure Login Portal</p>
+            </div>
+
+            <div class="login-body">
+                <div id="alertContainer"></div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            class="form-input" 
+                            placeholder="Enter your email"
+                            required
+                            autocomplete="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            class="form-input" 
+                            placeholder="Enter your password"
+                            required
+                            autocomplete="current-password">
+                    </div>
+
+                    <button type="submit" class="btn-login" id="loginBtn">
+                        Login
+                    </button>
+                </form>
+
+                <div style="text-align: center; margin: 1rem 0;">
+                    <a href="forgot-password.html" style="color: #003DA5; text-decoration: none; font-size: 14px;">
+                        🔒 Forgot Password?
+                    </a>
+                </div>
+
+                <div class="auth-link">
+                    Don't have an account? <a href="register.html">Register here</a>
+                </div>
+                <div style="text-align: center; margin-top: 0.5rem;">
+                    <a href="public-dashboard.html" style="color: #64748b; font-size: 13px;">📊 View Public Statistics</a>
+                </div>
+
+                <div class="demo-credentials">
+                    <strong>🎯 Demo Credentials:</strong>
+                    <div class="demo-item">
+                        <strong>Admin:</strong> <code>admin@grievance.gov</code> / <code>admin123</code>
+                    </div>
+                    <div class="demo-item">
+                        <strong>Officer:</strong> <code>electricity@grievance.gov</code> / <code>officer123</code>
+                    </div>
+                    <div class="demo-item">
+                        <strong>Citizen:</strong> <code>citizen@example.com</code> / <code>citizen123</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+            
+            alertContainer.innerHTML = `
+                <div class="alert ${alertClass} show">
+                    ${message}
+                </div>
+            `;
+
+            setTimeout(() => {
+                const alert = alertContainer.querySelector('.alert');
+                if (alert) {
+                    alert.classList.remove('show');
+                }
+            }, 5000);
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+
+            // Add loading state
+            loginBtn.classList.add('loading');
+            loginBtn.textContent = '';
+
+            try {
+                const data = await apiCall('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, password })
+                });
+
+                // Store token and user
+                setToken(data.token);
+                setUser(data.user);
+
+                showAlert('✅ Login successful! Redirecting...', 'success');
+
+                // Redirect based on role
+                setTimeout(() => {
+                    if (data.user.role === 'ADMIN') {
+                        window.location.href = 'admin.html';
+                    } else if (data.user.role === 'OFFICER') {
+                        window.location.href = 'officer.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                }, 1000);
+
+            } catch (error) {
+                loginBtn.classList.remove('loading');
+                loginBtn.textContent = 'Login';
+                showAlert('❌ ' + error.message, 'error');
+            }
+        });
+
+        // Auto-fill demo credentials on click
+        document.querySelectorAll('.demo-item code').forEach(code => {
+            code.style.cursor = 'pointer';
+            code.addEventListener('click', function() {
+                const text = this.textContent;
+                if (text.includes('@')) {
+                    document.getElementById('email').value = text;
+                } else if (text.length < 15) {
+                    document.getElementById('password').value = text;
+                }
+            });
+        });
+    </script>
+    <script src="translations.js"></script>
+    <script src="government-portal-init.js"></script>
+    <script src="simple-translator.js"></script>
+    <script src="language-selector-widget.js"></script>
+</body>
+</html>

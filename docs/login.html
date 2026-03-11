@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smart Grievance System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.08) 0%, rgba(255, 255, 255, 1) 50%, rgba(19, 136, 8, 0.08) 100%);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FF9933 0%, #FF9933 33%, #FFFFFF 33%, #FFFFFF 66%, #138808 66%, #138808 100%);
+            z-index: 1000;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #003DA5 0%, #001F52 100%);
+            padding: 25px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header::before {
+            content: '🇮🇳';
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .body {
+            padding: 25px 30px 30px;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10B981;
+            color: #065F46;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #EF4444;
+            color: #991B1B;
+        }
+
+        .demo-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .demo-box strong {
+            display: block;
+            margin-bottom: 10px;
+            color: #92400E;
+        }
+
+        .demo-item {
+            padding: 6px 0;
+            font-size: 0.85rem;
+            color: #4B5563;
+        }
+
+        .demo-item code {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #1E40AF;
+        }
+
+        .demo-item code:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1F2937;
+            font-size: 0.9rem;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #003DA5;
+            box-shadow: 0 0 0 3px rgba(0, 61, 165, 0.1);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #FF9933 0%, #FF7700 50%, #138808 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(255, 153, 51, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: -8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #6B7280;
+            font-size: 0.9rem;
+        }
+
+        .auth-link a {
+            color: #003DA5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>Login</h1>
+                <p>Smart Grievance Redressal System</p>
+            </div>
+
+            <div class="body">
+                <div id="alertContainer"></div>
+
+                <div class="demo-box">
+                    <strong>📝 Static demo accounts (prototype only — not secure):</strong>
+                    <div class="demo-item">
+                        <strong>Admin:</strong> 
+                        <code onclick="fillCredentials('admin@grievance.gov', 'admin123')">
+                            admin@grievance.gov / admin123
+                        </code>
+                    </div>
+                    <div class="demo-item">
+                        <strong>Officer:</strong> 
+                        <code onclick="fillCredentials('electricity@grievance.gov', 'officer123')">
+                            electricity@grievance.gov / officer123
+                        </code>
+                    </div>
+                    <div class="demo-item">
+                        <strong>Citizen:</strong> 
+                        <code onclick="fillCredentials('citizen@example.com', 'citizen123')">
+                            citizen@example.com / citizen123
+                        </code>
+                    </div>
+                </div>
+
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="your.email@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" class="form-input" placeholder="Enter password" required style="padding-right: 45px;">
+                            <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" id="loginBtn">Login</button>
+                </form>
+
+                <div class="auth-link">
+                    Don't have an account? <a href="register.html">Register here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="demo-system.js"></script>
+    <script>
+        const MAX_ATTEMPTS = 3;
+        const LOCKOUT_DURATION = 24 * 60 * 60 * 1000;
+        
+        function showAlert(message, type) {
+            const container = document.getElementById('alertContainer');
+            container.innerHTML = `<div class="alert alert-${type} show">${message}</div>`;
+            setTimeout(() => {
+                const alert = container.querySelector('.alert');
+                if (alert) {
+                    alert.classList.remove('show');
+                    setTimeout(() => container.innerHTML = '', 300);
+                }
+            }, 5000);
+        }
+
+        function fillCredentials(email, password) {
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+        }
+
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const btn = event.target;
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            btn.textContent = type === 'password' ? '👁️' : '🙈';
+        }
+
+        function getFailedAttempts() {
+            const attempts = localStorage.getItem('failedLoginAttempts');
+            return attempts ? JSON.parse(attempts) : { count: 0, lockoutUntil: null };
+        }
+
+        function setFailedAttempts(count, lockoutUntil = null) {
+            localStorage.setItem('failedLoginAttempts', JSON.stringify({ count, lockoutUntil }));
+        }
+
+        function resetFailedAttempts() {
+            localStorage.removeItem('failedLoginAttempts');
+        }
+
+        function checkLockout() {
+            const attempts = getFailedAttempts();
+            if (attempts.lockoutUntil) {
+                const now = new Date().getTime();
+                if (now < attempts.lockoutUntil) {
+                    const remainingTime = attempts.lockoutUntil - now;
+                    const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+                    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                    return `Account locked. Please try again in ${hours}h ${minutes}m.`;
+                } else {
+                    resetFailedAttempts();
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            console.log('Login form submitted');
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('loginBtn');
+
+            const lockoutMessage = checkLockout();
+            if (lockoutMessage) {
+                showAlert('🔒 ' + lockoutMessage, 'error');
+                return;
+            }
+
+            btn.classList.add('loading');
+            btn.textContent = '';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Check demo users - use DEMO_USERS from demo-system for correct IDs (citizen id:5)
+                let user = null;
+                if (window.grievanceSystem && window.grievanceSystem.DEMO_USERS) {
+                    user = grievanceSystem.DEMO_USERS.find(u => u.email === email && u.password === password);
+                    // Alias: electricity@grievance.gov -> electricity.officer
+                    if (!user && email === 'electricity@grievance.gov') {
+                        const officer = grievanceSystem.DEMO_USERS.find(u => u.email === 'electricity.officer@grievance.gov' && u.password === password);
+                        if (officer) user = officer;
+                    }
+                }
+
+                // Check registered users (allUsers)
+                if (!user) {
+                    const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+                    user = allUsers.find(u => u.email === email && u.password === password);
+                }
+
+                if (user) {
+                    console.log('Login successful:', user);
+                    resetFailedAttempts();
+                    
+                    localStorage.setItem('user', JSON.stringify(user));
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('token', 'demo-token-' + Date.now());
+                    
+                    showAlert('✅ Login successful! Redirecting...', 'success');
+
+                    setTimeout(() => {
+                        if (user.role === 'ADMIN') {
+                            window.location.href = 'admin.html';
+                        } else if (['OFFICER', 'DEPARTMENT_HEAD', 'FIELD_WORKER'].includes(user.role)) {
+                            window.location.href = 'officer.html';
+                        } else {
+                            window.location.href = 'profile.html';
+                        }
+                    }, 1500);
+                } else {
+                    console.log('Login failed: Invalid credentials');
+                    const attempts = getFailedAttempts();
+                    const newCount = attempts.count + 1;
+
+                    if (newCount >= MAX_ATTEMPTS) {
+                        const lockoutUntil = new Date().getTime() + LOCKOUT_DURATION;
+                        setFailedAttempts(newCount, lockoutUntil);
+                        showAlert(`🔒 Too many failed attempts! Account locked for 24 hours.`, 'error');
+                    } else {
+                        setFailedAttempts(newCount);
+                        const remainingAttempts = MAX_ATTEMPTS - newCount;
+                        showAlert(`❌ Invalid email or password! ${remainingAttempts} attempt${remainingAttempts > 1 ? 's' : ''} remaining.`, 'error');
+                    }
+
+                    btn.classList.remove('loading');
+                    btn.textContent = 'Login';
+                    btn.disabled = false;
+                }
+            }, 1000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('Login page loaded');
+            console.log('grievanceSystem:', window.grievanceSystem ? 'Available' : 'Not available');
+            
+            const lockoutMessage = checkLockout();
+            if (lockoutMessage) {
+                showAlert('🔒 ' + lockoutMessage, 'error');
+                document.getElementById('loginBtn').disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>

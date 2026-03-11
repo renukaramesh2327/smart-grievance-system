@@ -1,0 +1,154 @@
+{
+  "Water Supply": [
+    "No water supply",
+    "Low water pressure",
+    "Water leakage / pipeline burst",
+    "Dirty/contaminated water",
+    "Water meter issue",
+    "Water billing issue",
+    "Connection request / disconnection",
+    "Tanker water request (emergency)"
+  ],
+  "Electricity": [
+    "Power outage",
+    "Frequent interruptions",
+    "Voltage fluctuation",
+    "Transformer issue",
+    "Street power line damage",
+    "New connection request",
+    "Meter not working",
+    "Billing / overcharge issue"
+  ],
+  "Sanitation & Solid Waste": [
+    "Garbage not collected",
+    "Garbage dumping / illegal dumping",
+    "Missed door-to-door collection",
+    "Dead animal disposal",
+    "Cleaning request (area)",
+    "Mosquito/fogging request",
+    "Waste burning complaint",
+    "Sweeping not done"
+  ],
+  "Sewerage & Drainage": [
+    "Drain overflow",
+    "Blocked sewer line",
+    "Manhole open/damaged",
+    "Water logging",
+    "Bad odor / hygiene issue",
+    "Stormwater drain blockage",
+    "Septic tank overflow (public)"
+  ],
+  "Roads & Potholes": [
+    "Potholes",
+    "Road damage after rain",
+    "Road sinking / cave-in",
+    "Speed breaker damaged",
+    "Road marking missing",
+    "Footpath broken",
+    "Construction debris on road",
+    "Incomplete road work"
+  ],
+  "Streetlights": [
+    "Light not working",
+    "Blinking/flickering",
+    "Pole damage",
+    "Light always ON/OFF",
+    "New streetlight request",
+    "Exposed wiring hazard"
+  ],
+  "Traffic": [
+    "Signal not working",
+    "Illegal parking",
+    "Wrong-side driving hotspot",
+    "Traffic congestion issue",
+    "Speeding complaint zone",
+    "Unauthorized speed breaker",
+    "Missing signage",
+    "School zone safety"
+  ],
+  "Police": [
+    "Theft / burglary complaint",
+    "Harassment / threat",
+    "Neighbourhood dispute",
+    "Public nuisance",
+    "Suspicious activity",
+    "Loud noise late night",
+    "Missing person info (service)",
+    "Verification service issues"
+  ],
+  "Cyber Crime": [
+    "Online fraud / scam",
+    "OTP/UPI fraud",
+    "Social media harassment",
+    "Identity misuse report",
+    "Phishing link report",
+    "Fake job scam",
+    "Account hacked",
+    "Cyber bullying"
+  ],
+  "Public Health": [
+    "Hospital service delay",
+    "Staff behaviour complaint",
+    "Medicine unavailable",
+    "Ambulance delay",
+    "Cleanliness issue",
+    "Overcrowding / queue complaint",
+    "Test report delay",
+    "Referral/bed availability issue"
+  ],
+  "Food Safety": [
+    "Food poisoning complaint",
+    "Restaurant hygiene issue",
+    "Expired food sold",
+    "Adulteration suspicion",
+    "Unsafe street food complaint"
+  ],
+  "Education": [
+    "Teacher absence",
+    "Poor infrastructure",
+    "Scholarship delay",
+    "Exam/marks issue",
+    "Certificate request delay",
+    "Harassment/bullying complaint",
+    "Transport issue (school bus)"
+  ],
+  "Land & Revenue": [
+    "Land record correction",
+    "Patta/RTC delay",
+    "Property mutation delay",
+    "Boundary dispute filing (service)",
+    "Encroachment report",
+    "Certificate processing delay"
+  ],
+  "Ration Card / PDS": [
+    "Ration not received",
+    "Dealer overcharging",
+    "Card update issue",
+    "Biometric failure (service)",
+    "Wrong entries",
+    "Eligibility grievance"
+  ],
+  "RTO / Transport": [
+    "License test issue",
+    "DL renewal delay",
+    "Registration delay",
+    "Fitness certificate issues",
+    "Challan dispute info",
+    "Agent corruption complaint (service)"
+  ],
+  "Telecom / Network": [
+    "No signal / low coverage",
+    "Frequent call drops",
+    "Internet speed issue",
+    "Billing dispute",
+    "SIM activation delay"
+  ],
+  "Environment": [
+    "Air pollution complaint",
+    "Water pollution complaint",
+    "Garbage burning",
+    "Noise pollution",
+    "Tree cutting complaint",
+    "Industrial waste dumping"
+  ]
+}

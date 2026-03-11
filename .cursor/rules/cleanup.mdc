@@ -1,0 +1,20 @@
+---
+description: Auto-delete unwanted files when making edits; keep repo clean
+alwaysApply: true
+---
+
+# Cleanup Rule
+
+When making edits to this project, **automatically**:
+
+1. **Delete unwanted files** (locally and from git):
+   - `*backup*`, `*~`, `*.bak`, `*.tmp`
+   - `__pycache__/`, `*.pyc`, `*.pyo`
+   - `.DS_Store`, `Thumbs.db`
+   - Redundant scripts: `backup_database.sh`, `deploy_production.sh` (Procfile/render.yaml used)
+   - Duplicate docs: `docs/edit-profile.html` if profile.html covers it
+   - Test/debug files: `*_test.py`, `test_*.py` in root (unless in tests/)
+
+2. **After deletions**: Run `git add -A` and include removed files in the next commit so GitHub stays in sync.
+
+3. **Do not ask** — perform cleanup as part of the edit workflow.

@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1e40af">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Smart Grievance Redressal System | Government of India</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="government-portal-theme.css">
+    <link rel="stylesheet" href="improved-contrast.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* Header */
+        .gov-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .gov-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .gov-logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .gov-emblem {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .gov-title h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .gov-title p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d97706;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            padding: 40px 20px;
+            border-bottom: 3px solid #3b82f6;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-content h2 {
+            font-size: 32px;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .hero-content p {
+            font-size: 16px;
+            color: #475569;
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .stats-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e40af;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Section Styles */
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3b82f6;
+        }
+
+        /* Resolved Cases Showcase */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .case-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .case-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f3f4f6;
+        }
+
+        .case-content {
+            padding: 15px;
+        }
+
+        .case-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #10b981;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .case-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 8px;
+        }
+
+        .case-description {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .case-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #94a3b8;
+            padding-top: 10px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-hint {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        /* Image Upload */
+        .image-upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-upload-zone:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .image-upload-zone.required-upload {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .preview-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #e5e7eb;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        /* Notice Box */
+        .notice-box {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .notice-box.warning {
+            background: #fef3c7;
+            border-left-color: #f59e0b;
+        }
+
+        .notice-box.info {
+            background: #f0f9ff;
+            border-left-color: #0ea5e9;
+        }
+
+        .notice-title {
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .notice-text {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* Grievances List */
+        .grievance-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: box-shadow 0.3s;
+        }
+
+        .grievance-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .grievance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .grievance-id {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-received { background: #dbeafe; color: #1e40af; }
+        .status-assigned { background: #fef3c7; color: #92400e; }
+        .status-progress { background: #e0e7ff; color: #3730a3; }
+        .status-resolved { background: #d1fae5; color: #065f46; }
+
+        .grievance-content {
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .grievance-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .gov-header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero-content h2 {
+                font-size: 24px;
+            }
+
+            .stats-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Alert */
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .alert.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Government Header -->
+    <header class="gov-header">
+        <div class="gov-header-content">
+            <div class="gov-logo-section">
+                <div class="gov-emblem">🇮🇳</div>
+                <div class="gov-title">
+                    <h1>Smart Grievance Redressal System</h1>
+                    <p>Government of India | Digital India Initiative</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="profile.html" class="btn btn-secondary">My Profile</a>
+                <span id="userWelcome" style="color: white; font-size: 14px;"></span>
+                <button id="logoutBtn" class="btn btn-primary">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h2>Welcome to Smart Grievance Portal</h2>
+            <p>Submit your complaints online and track their resolution in real-time. Our AI-powered system ensures your grievance reaches the right department instantly.</p>
+        </div>
+    </section>
+
+    <!-- Statistics Bar -->
+    <div class="stats-bar">
+        <div class="stats-content">
+            <div class="stat-item">
+                <span class="stat-number" id="totalGrievances">0</span>
+                <span class="stat-label">Total Grievances</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="resolvedGrievances">0</span>
+                <span class="stat-label">Resolved</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="pendingGrievances">0</span>
+                <span class="stat-label">In Progress</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="avgResolutionTime">0</span>
+                <span class="stat-label">Avg. Resolution (days)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Resolved Cases Showcase -->
+        <section class="section">
+            <h2 class="section-title">Recently Resolved Cases</h2>
+            <p style="color: #64748b; margin-bottom: 20px;">See how we've helped citizens resolve their grievances across India</p>
+            
+            <div class="cases-grid" id="resolvedCasesGrid">
+                <!-- Cases will be loaded here dynamically -->
+                <div class="spinner"></div>
+            </div>
+        </section>
+
+        <!-- Submit New Grievance -->
+        <section class="section">
+            <h2 class="section-title">Submit New Grievance</h2>
+            
+            <!-- Alert -->
+            <div id="alertBox" class="alert"></div>
+
+            <!-- Residential Address Notice -->
+            <div id="addressNotice" class="notice-box warning" style="display: none;">
+                <div class="notice-title">Residential Address Required</div>
+                <div class="notice-text">
+                    Please complete your residential address in your profile before submitting complaints. This is mandatory for identity verification and fraud prevention.
+                    <a href="profile.html" style="color: #1e40af; font-weight: 600; margin-left: 10px;">Complete Profile →</a>
+                </div>
+            </div>
+
+            <!-- Verification Notice -->
+            <div class="notice-box info">
+                <div class="notice-title">Verification & Anti-Fraud Measures</div>
+                <div class="notice-text">
+                    All complaints are verified to prevent fraudulent submissions. We collect residential address, complaint location, and image evidence. Submitting false complaints is a punishable offense.
+                </div>
+            </div>
+
+            <form id="grievanceForm">
+                <div class="form-group">
+                    <label class="form-label">
+                        Complaint Details <span class="required">*</span>
+                    </label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <textarea id="complaint" class="form-textarea" 
+                            placeholder="Describe your complaint in detail (minimum 20 characters)" 
+                            required minlength="20"></textarea>
+                        <button type="button" id="voiceBtn" title="Voice input" style="padding: 0.5rem; background: #3B82F6; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.2rem;">🎤</button>
+                    </div>
+                    <small class="form-hint">Our AI will automatically assign your complaint to the appropriate department. Click 🎤 for voice input.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Complaint Location <span class="required">*</span>
+                    </label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="location" class="form-input" 
+                            placeholder="Enter exact location: Building/House No, Street, Area, Landmark, City, State, PIN" 
+                            required>
+                        <button type="button" id="geoBtn" class="btn btn-secondary" style="white-space: nowrap;">📍 Use GPS</button>
+                    </div>
+                    <small class="form-hint">Enter the location where the complaint is. Click "Use GPS" to auto-detect.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Upload Evidence Images <span class="required" id="imageRequirementLabel">* MANDATORY</span>
+                    </label>
+                    
+                    <div id="imageDropZone" class="image-upload-zone required-upload" onclick="document.getElementById('complaintImages').click()">
+                        <div class="upload-icon">📸</div>
+                        <p style="font-weight: 600; color: #1e3a8a; margin-bottom: 5px;">Click to upload or drag and drop</p>
+                        <p style="font-size: 13px; color: #64748b;">PNG, JPG, JPEG up to 5MB each (Max 5 images)</p>
+                        <p style="font-size: 12px; color: #ef4444; margin-top: 10px; font-weight: 600;">At least 1 image is mandatory to prevent fraudulent complaints</p>
+                    </div>
+                    <input type="file" id="complaintImages" accept="image/*" multiple style="display: none;">
+                    
+                    <div id="imagePreviewContainer" class="image-preview-grid" style="display: none;"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 16px;">
+                    Submit Grievance
+                </button>
+            </form>
+        </section>
+
+        <!-- My Grievances -->
+        <section class="section">
+            <h2 class="section-title">My Grievances</h2>
+            
+            <div id="grievancesList">
+                <div class="spinner"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        let currentUser = null;
+        let uploadedImages = [];
+
+        // Check authentication
+        async function checkAuth() {
+            try {
+                const data = await apiCall('/auth/me');
+                currentUser = data.user;
+                
+                // Redirect Admin and Officer to their respective portals
+                if (currentUser.role === 'ADMIN') {
+                    window.location.href = 'admin.html';
+                    return;
+                }
+                if (currentUser.role === 'OFFICER') {
+                    window.location.href = 'officer.html';
+                    return;
+                }
+                
+                document.getElementById('userWelcome').textContent = `Welcome, ${currentUser.name}`;
+                
+                // Check residential address
+                if (!currentUser.residential_address || !currentUser.residential_city || 
+                    !currentUser.residential_state || !currentUser.residential_pincode) {
+                    document.getElementById('addressNotice').style.display = 'block';
+                }
+                
+                loadStatistics();
+                loadResolvedCases();
+                loadMyGrievances();
+            } catch (error) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Load statistics
+        async function loadStatistics() {
+            try {
+                const data = await apiCall('/grievances/my-grievances');
+                const grievances = data.grievances || [];
+                const total = grievances.length;
+                const resolved = grievances.filter(g => g.status === 'Resolved' || g.status === 'Closed').length;
+                const pending = total - resolved;
+                
+                document.getElementById('totalGrievances').textContent = total;
+                document.getElementById('resolvedGrievances').textContent = resolved;
+                document.getElementById('pendingGrievances').textContent = pending;
+                
+                // Fetch avg resolution from public stats
+                try {
+                    const statsRes = await fetch('/api/public/stats');
+                    const stats = await statsRes.json();
+                    document.getElementById('avgResolutionTime').textContent = stats.avg_resolution_days ?? 0;
+                } catch (_) {
+                    document.getElementById('avgResolutionTime').textContent = '0';
+                }
+            } catch (error) {
+                console.error('Failed to load statistics:', error);
+            }
+        }
+
+        // Load resolved cases showcase
+        async function loadResolvedCases() {
+            try {
+                // Mock data for showcase - in production, fetch from backend
+                const resolvedCases = [
+                    {
+                        id: 1,
+                        title: 'Pothole Repair on MG Road',
+                        description: 'Large pothole causing accidents repaired within 48 hours of complaint submission.',
+                        image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="200"%3E%3Crect fill="%2310b981" width="400" height="200"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="20" fill="white"%3ERoad Repair Completed%3C/text%3E%3C/svg%3E',
+                        department: 'Public Works',
+                        location: 'Bangalore, Karnataka',
+                        resolvedDate: '2 days ago'
+                    },
+                    {
+                        id: 2,
+                        title: 'Street Light Installation',
+                        description: 'New street lights installed in residential area improving safety for residents.',
+                        image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="200"%3E%3Crect fill="%233b82f6" width="400" height="200"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="20" fill="white"%3EStreet Lights Installed%3C/text%3E%3C/svg%3E',
+                        department: 'Electricity',
+                        location: 'Mumbai, Maharashtra',
+                        resolvedDate: '5 days ago'
+                    },
+                    {
+                        id: 3,
+                        title: 'Water Supply Restored',
+                        description: 'Broken water pipeline repaired and regular water supply restored to 500+ households.',
+                        image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="200"%3E%3Crect fill="%230ea5e9" width="400" height="200"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="20" fill="white"%3EWater Supply Fixed%3C/text%3E%3C/svg%3E',
+                        department: 'Water Supply',
+                        location: 'Delhi',
+                        resolvedDate: '1 week ago'
+                    }
+                ];
+
+                const grid = document.getElementById('resolvedCasesGrid');
+                grid.innerHTML = resolvedCases.map(c => `
+                    <div class="case-card">
+                        <img src="${c.image}" alt="${c.title}" class="case-image">
+                        <div class="case-content">
+                            <span class="case-badge">Resolved</span>
+                            <div class="case-title">${c.title}</div>
+                            <div class="case-description">${c.description}</div>
+                            <div class="case-meta">
+                                <span>${c.department} | ${c.location}</span>
+                                <span>${c.resolvedDate}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load resolved cases:', error);
+                document.getElementById('resolvedCasesGrid').innerHTML = '<p style="color: #64748b;">Unable to load resolved cases</p>';
+            }
+        }
+
+        // Load my grievances
+        async function loadMyGrievances() {
+            try {
+                const data = await apiCall('/grievances/my-grievances');
+                const list = document.getElementById('grievancesList');
+                const grievances = data.grievances || [];
+                
+                if (grievances.length === 0) {
+                    list.innerHTML = '<p style="color: #64748b; text-align: center; padding: 20px;">No grievances submitted yet</p>';
+                    return;
+                }
+
+                list.innerHTML = grievances.map(g => `
+                    <div class="grievance-card">
+                        <div class="grievance-header">
+                            <div class="grievance-id">Grievance #${g.id}</div>
+                            <span class="badge ${getStatusBadgeClass(g.status)}">${g.status || 'Received'}</span>
+                        </div>
+                        <div class="grievance-content">
+                            <strong>${escapeHtml(g.assigned_department)}</strong><br>
+                            ${escapeHtml(g.complaint_text.substring(0, 150))}${g.complaint_text.length > 150 ? '...' : ''}
+                        </div>
+                        <div class="grievance-footer">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span>Submitted: ${new Date(g.created_at).toLocaleDateString('en-IN')}</span>
+                                ${g.comment_count > 0 ? `
+                                    <span style="display: flex; align-items: center; gap: 0.25rem; color: #3B82F6; font-weight: 600; font-size: 0.875rem;">
+                                        <span style="font-size: 1rem;">💬</span>
+                                        <span>${g.comment_count} ${g.comment_count === 1 ? 'Comment' : 'Comments'}</span>
+                                    </span>
+                                ` : ''}
+                            </div>
+                            <a href="track.html?id=${g.id}" class="btn btn-primary" style="padding: 6px 12px; font-size: 13px;">Track Status</a>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load grievances:', error);
+                document.getElementById('grievancesList').innerHTML = '<p style="color: #ef4444;">Failed to load grievances</p>';
+            }
+        }
+
+        // Image upload handling
+        document.getElementById('complaintImages').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            
+            if (uploadedImages.length + files.length > 5) {
+                showAlert('Maximum 5 images allowed', 'error');
+                return;
+            }
+
+            files.forEach(file => {
+                if (file.size > 5 * 1024 * 1024) {
+                    showAlert('Image size must be less than 5MB', 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImages.push(event.target.result);
+                    displayImagePreviews();
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        function displayImagePreviews() {
+            const container = document.getElementById('imagePreviewContainer');
+            
+            if (uploadedImages.length === 0) {
+                container.style.display = 'none';
+                document.getElementById('imageDropZone').classList.add('required-upload');
+                return;
+            }
+
+            container.style.display = 'grid';
+            document.getElementById('imageDropZone').classList.remove('required-upload');
+            
+            container.innerHTML = uploadedImages.map((img, index) => `
+                <div class="preview-item">
+                    <img src="${img}" class="preview-image" alt="Preview ${index + 1}">
+                    <button type="button" class="remove-image" onclick="removeImage(${index})">×</button>
+                </div>
+            `).join('');
+        }
+
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            displayImagePreviews();
+        }
+
+        // Form submission
+        document.getElementById('grievanceForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const complaint = document.getElementById('complaint').value.trim();
+            const location = document.getElementById('location').value.trim();
+
+            // Validations
+            if (!currentUser.residential_address || !currentUser.residential_city || 
+                !currentUser.residential_state || !currentUser.residential_pincode) {
+                showAlert('Please complete your residential address in your profile before submitting complaints', 'error');
+                return;
+            }
+
+            if (complaint.length < 20) {
+                showAlert('Complaint must be at least 20 characters long', 'error');
+                return;
+            }
+
+            if (location.length < 10) {
+                showAlert('Please provide a detailed complaint location', 'error');
+                return;
+            }
+
+            if (uploadedImages.length === 0) {
+                showAlert('At least 1 image is mandatory to prevent fraudulent complaints', 'error');
+                return;
+            }
+
+            try {
+                showAlert('Submitting your grievance...', 'info');
+                
+                const response = await apiCall('/grievances/submit', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        complaint_text: complaint,
+                        location: location,
+                        images: uploadedImages
+                    })
+                });
+
+                showAlert(`Grievance submitted successfully! ID: #${response.grievance_id}`, 'success');
+                
+                // Reset form
+                document.getElementById('grievanceForm').reset();
+                uploadedImages = [];
+                displayImagePreviews();
+                
+                // Reload grievances
+                setTimeout(() => {
+                    loadMyGrievances();
+                    loadStatistics();
+                }, 1000);
+
+            } catch (error) {
+                showAlert(error.message || 'Failed to submit grievance', 'error');
+            }
+        });
+
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = message;
+            alertBox.className = `alert ${type}`;
+            alertBox.style.display = 'block';
+            
+            if (type !== 'info') {
+                setTimeout(() => {
+                    alertBox.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Voice input (Web Speech API)
+        document.getElementById('voiceBtn').addEventListener('click', function() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                showAlert('Voice input not supported in this browser', 'error');
+                return;
+            }
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const rec = new SpeechRecognition();
+            rec.continuous = false;
+            rec.interimResults = false;
+            rec.lang = 'en-IN';
+            rec.onresult = (e) => {
+                const text = e.results[0][0].transcript;
+                document.getElementById('complaint').value += (document.getElementById('complaint').value ? ' ' : '') + text;
+            };
+            rec.onerror = () => showAlert('Could not hear. Please try again.', 'error');
+            rec.start();
+            showAlert('Listening... Speak your complaint.', 'info');
+        });
+
+        // Geolocation
+        document.getElementById('geoBtn').addEventListener('click', function() {
+            if (!navigator.geolocation) {
+                showAlert('Geolocation not supported', 'error');
+                return;
+            }
+            document.getElementById('geoBtn').textContent = 'Getting location...';
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude.toFixed(6);
+                    const lon = pos.coords.longitude.toFixed(6);
+                    document.getElementById('location').value = `Lat: ${lat}, Long: ${lon} (GPS coordinates)`;
+                    document.getElementById('geoBtn').textContent = '📍 Use GPS';
+                },
+                () => {
+                    showAlert('Could not get location. Enter manually.', 'error');
+                    document.getElementById('geoBtn').textContent = '📍 Use GPS';
+                }
+            );
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            logout();
+        });
+
+        // Initialize
+        checkAuth();
+    </script>
+    <script src="translations.js"></script>
+    <script src="government-portal-init.js"></script>
+    <script src="simple-translator.js"></script>
+    <script src="language-selector-widget.js"></script>
+</body>
+</html>

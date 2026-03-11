@@ -1,0 +1,8 @@
+"""Migration for add-on tables: audit_logs, grievance_ratings"""
+from backend.app import create_app
+from backend.extensions import db
+
+app = create_app()
+with app.app_context():
+    db.create_all()
+    print("✓ Add-on tables created (audit_logs, grievance_ratings)")

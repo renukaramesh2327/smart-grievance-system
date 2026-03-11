@@ -1,0 +1,24 @@
+# Render.com Blueprint - Deploy Smart Grievance System from GitHub
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: smart-grievance-system
+    runtime: python
+    region: oregon
+
+    # Build
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn "backend.app:create_app()" --bind 0.0.0.0:$PORT
+
+    # Environment (set SECRET_KEY in Render dashboard)
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: DEMO_EMAIL_MODE
+        value: "true"
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+
+    # Health check
+    healthCheckPath: /health
